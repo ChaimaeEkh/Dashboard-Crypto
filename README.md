@@ -62,3 +62,21 @@ Real-time cryptocurrency tracking dashboard with interactive charts and detailed
 - Debounced search
 - Memory leak prevention
 - Proper modal cleanup
+
+
+## features ::
+Comparaison de cryptomonnaies
+
+    Ajoute une section où les utilisateurs peuvent comparer deux ou plusieurs cryptomonnaies côte à côte (prix, variation, volume, etc.).
+
+    --Historique des recherches
+
+    Affiche une liste des cryptomonnaies récemment recherchées, avec des options pour revisiter ou supprimer des éléments de la liste.
+
+    --Graphiques améliorés
+
+    Intègre des fonctionnalités supplémentaires dans les graphiques, comme le zoom ou des annotations interactives avec Chart.js.
+
+    --Conversion des devises
+
+    Permets à l’utilisateur de changer la devise de base (USD, EUR, JPY, etc.) pour voir les prix dans différentes monnaies.
