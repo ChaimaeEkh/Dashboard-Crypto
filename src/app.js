@@ -92,7 +92,7 @@ class CryptoDashboard {
     toggleComparison() {
         const isVisible = this.comparisonContainer.style.display === 'block';
         this.comparisonContainer.style.display = isVisible ? 'none' : 'block';
-        this.compareButton.textContent = isVisible ? 'Comparer' : 'Masquer la comparaison';
+        this.compareButton.textContent = isVisible ? 'Compare' : 'Hide the comparison';
     }
 
     async fetchAndUpdateData() {
@@ -102,7 +102,7 @@ class CryptoDashboard {
             this.renderCryptoGrid(data);
         } catch (error) {
             console.error('Erreur:', error);
-            this.showError('Impossible de charger les données');
+            this.showError('Unable to load data.');
         }
     }
 
@@ -128,7 +128,7 @@ class CryptoDashboard {
                 ${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%
             </div>
             <button onclick="event.stopPropagation(); dashboard.toggleCompare('${crypto.id}')" class="btn-compare">
-                ${this.selectedForComparison.has(crypto.id) ? 'Retirer' : 'Comparer'}
+                ${this.selectedForComparison.has(crypto.id) ? 'Retirer' : 'Compare'}
             </button>
         `;
         card.addEventListener('click', () => this.showCryptoDetails(crypto));
@@ -150,7 +150,7 @@ toggleCompare(cryptoId) {
     } else if (this.selectedForComparison.size < 3) {
         this.selectedForComparison.add(cryptoId);
     } else {
-        this.showError('Maximum 3 cryptomonnaies en comparaison');
+        this.showError('Maximum 3 cryptocurrencies in comparison');
         return;
     }
     this.updateComparison();
@@ -178,20 +178,20 @@ async updateComparison() {
                     <div class="crypto-name">${data.name}</div>
                 </div>
                 <div class="crypto-details">
-                    <p>Prix: ${this.formatCurrency(data.market_data.current_price[this.currentCurrency])}</p>
+                    <p>Price: ${this.formatCurrency(data.market_data.current_price[this.currentCurrency])}</p>
                     <p>Volume 24h: ${this.formatCurrency(data.market_data.total_volume[this.currentCurrency])}</p>
-                    <p>Cap. Marché: ${this.formatCurrency(data.market_data.market_cap[this.currentCurrency])}</p>
+                    <p>Market Cap.: ${this.formatCurrency(data.market_data.market_cap[this.currentCurrency])}</p>
                     <p>Variation 24h: ${data.market_data.price_change_percentage_24h.toFixed(2)}%</p>
                     <p>ATH: ${this.formatCurrency(data.market_data.ath[this.currentCurrency])}</p>
                 </div>
                 <button onclick="dashboard.toggleCompare('${data.id}')" class="btn-remove">
-                    Retirer de la comparaison
+                    Remove from comparison
                 </button>
             `;
             this.comparisonGrid.appendChild(comparisonCard);
         } catch (error) {
             console.error('Erreur:', error);
-            this.showError(`Erreur lors de la récupération des données pour ${cryptoId}`);
+            this.showError(`Error while retrieving data for ${cryptoId}`);
         }
     }
 }
@@ -250,7 +250,7 @@ async showCryptoDetails(crypto) {
         this.modal.style.display = 'block';
     } catch (error) {
         console.error('Erreur:', error);
-        this.showError('Impossible de charger les détails');
+        this.showError('Unable to load the details');
     }
 }
 
@@ -261,14 +261,27 @@ updateChart(priceData) {
         this.chart.destroy();
     }
 
+    // Définir une hauteur fixe pour le canvas
+    ctx.canvas.style.height = '400px';
+    ctx.canvas.style.width = '100%';
+
     this.chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: priceData.map(price => new Date(price[0]).toLocaleDateString()),
+            labels: priceData.map(price => {
+                const date = new Date(price[0]);
+                return date.toLocaleDateString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }),
             datasets: [{
                 label: `Prix (${this.currentCurrency.toUpperCase()})`,
                 data: priceData.map(price => price[1]),
                 borderColor: '#3d5afe',
+                borderWidth: 2,
                 tension: 0.1,
                 fill: true,
                 backgroundColor: 'rgba(61, 90, 254, 0.1)'
@@ -276,12 +289,17 @@ updateChart(priceData) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             interaction: {
                 intersect: false,
                 mode: 'index'
             },
             plugins: {
                 zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'xy'
+                    },
                     zoom: {
                         wheel: {
                             enabled: true
@@ -292,14 +310,45 @@ updateChart(priceData) {
                         mode: 'xy'
                     }
                 },
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
                 tooltip: {
                     enabled: true,
                     mode: 'index',
-                    intersect: false
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += new Intl.NumberFormat('fr-FR', {
+                                    style: 'currency',
+                                    currency: this.currentCurrency
+                                }).format(context.parsed.y);
+                            }
+                            return label;
+                        }
+                    }
                 }
             },
             scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
                 y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Prix'
+                    },
                     beginAtZero: false
                 }
             }

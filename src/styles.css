@@ -352,3 +352,22 @@ canvas#chart {
 .btn-remove:hover {
     background-color: #d32f2f;
 }
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    margin: 5vh auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    position: relative;
+    animation: slideIn 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#chart {
+    width: 100%;
+    height: 400px !important;
+    margin-top: 1rem;
+}

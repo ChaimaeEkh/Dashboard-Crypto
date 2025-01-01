@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Cryptomonnaies Pro</title>
+    <title>Dashboard-Crypto</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="website icon" type="png" href="src/1d8e7a73b7ca69936825df4f48c3e9d8.jpg">
     <link rel="stylesheet" href="src/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="dashboard-header">
-            <h1>Dashboard Cryptomonnaies Pro</h1>
+            <h1>Dashboard Cryptomonnaies</h1>
             <div class="controls">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Rechercher une cryptomonnaie...">
+                    <input type="text" id="searchInput" placeholder="Search for a cryptocurrency...">
                 </div>
                 <select id="currencySelect">
                     <option value="eur">EUR</option>
@@ -23,30 +27,24 @@
                     <option value="gbp">GBP</option>
                 </select>
                 <select id="sortSelect">
-                    <option value="marketCap">Capitalisation</option>
-                    <option value="price">Prix</option>
+                    <option value="marketCap">Capitalization</option>
+                    <option value="price">Price</option>
                     <option value="percentChange">Variation (%)</option>
                 </select>
-                <button id="compareButton" class="btn">Comparer</button>
+                <button id="compareButton" class="btn">Compare</button>
             </div>
         </div>
-
-        <!-- Comparison Section -->
         <div id="comparisonContainer" class="comparison-container">
-            <h2>Comparaison des Cryptomonnaies</h2>
+            <h2>Cryptocurrency Comparison</h2>
             <div id="comparisonGrid" class="comparison-grid"></div>
         </div>
-
-        <!-- Search History -->
         <div class="search-history">
-            <h2>Historique des recherches</h2>
+            <h2>Search History</h2>
             <div id="searchHistoryList"></div>
         </div>
 
         <div id="cryptoGrid" class="crypto-grid"></div>
     </div>
-
-    <!-- Crypto Details Modal -->
     <div id="cryptoDetails" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -54,8 +52,6 @@
             <canvas id="chart"></canvas>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.7.0/chart.min.js"></script>
     <script src="src/app.js"></script>
 </body>
 </html>
