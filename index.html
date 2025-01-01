@@ -3,30 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Cryptomonnaies</title>
+    <title>Dashboard Cryptomonnaies Pro</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="src/styles.css">
-    <link rel="website icon" type="png" href="src/1d8e7a73b7ca69936825df4f48c3e9d8.jpg">
 </head>
 <body>
     <div class="container">
         <div class="dashboard-header">
-            <h1>Dashboard Cryptomonnaies</h1>
+            <h1>Dashboard Cryptomonnaies Pro</h1>
             <div class="controls">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
                     <input type="text" id="searchInput" placeholder="Rechercher une cryptomonnaie...">
                 </div>
+                <select id="currencySelect">
+                    <option value="eur">EUR</option>
+                    <option value="usd">USD</option>
+                    <option value="jpy">JPY</option>
+                    <option value="gbp">GBP</option>
+                </select>
                 <select id="sortSelect">
                     <option value="marketCap">Capitalisation</option>
                     <option value="price">Prix</option>
                     <option value="percentChange">Variation (%)</option>
                 </select>
+                <button id="compareButton" class="btn">Comparer</button>
             </div>
         </div>
+
+        <!-- Comparison Section -->
+        <div id="comparisonContainer" class="comparison-container">
+            <h2>Comparaison des Cryptomonnaies</h2>
+            <div id="comparisonGrid" class="comparison-grid"></div>
+        </div>
+
+        <!-- Search History -->
+        <div class="search-history">
+            <h2>Historique des recherches</h2>
+            <div id="searchHistoryList"></div>
+        </div>
+
         <div id="cryptoGrid" class="crypto-grid"></div>
     </div>
 
+    <!-- Crypto Details Modal -->
     <div id="cryptoDetails" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
